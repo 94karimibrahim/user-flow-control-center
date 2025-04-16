@@ -1,9 +1,7 @@
 
-import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { toast } from "sonner";
 import { Role } from "@/types/user";
-import { roles as initialRoles } from "@/data/roles";
 import { RoleForm } from "@/components/roles/RoleForm";
 import { Button } from "@/components/ui/button";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
@@ -16,7 +14,7 @@ const CreateRole = () => {
     // In a real app, this would send the data to an API
     // For now, we'll just show a success message and navigate back to the roles list
     console.log("Created role:", role);
-    toast.success("Role created successfully!");
+    toast.success(`Role "${role.name}" created successfully with ${role.permissions.length} permissions!`);
     navigate("/roles");
   };
 

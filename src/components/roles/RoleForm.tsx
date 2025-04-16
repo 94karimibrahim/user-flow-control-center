@@ -2,18 +2,19 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
-import { toast } from "sonner";
 import { Role, UserRole } from "@/types/user";
+import { permissionGroups } from "@/data/permissions";
+import { PermissionGroup } from "@/components/roles/PermissionGroup";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { ShieldCheck } from "lucide-react";
+import { ShieldCheck, Lock } from "lucide-react";
+import { Separator } from "@/components/ui/separator";
 
 const formSchema = z.object({
   name: z.enum(["admin", "manager", "user", "guest"], {
@@ -60,6 +61,45 @@ export function RoleForm({ onSubmit, initialData, isEditing = false }: RoleFormP
     onSubmit(role);
   };
 
+  const handlePermissionChange = (permissionId: string, isChecked: boolean) => {
+    setPermissions(prevPermissions => {
+      if (isChecked && !prevPermissions.includes(permissionId)) {
+        return [...prevPermissions, permissionId];
+      } else if (!isChecked && prevPermissions.includes(permissionId)) {
+        return prevPermissions.filter(id => id !== permissionId);
+      }
+      return prevPermissions;
+    });
+  };
+
+  const handleRoleTemplateChange = (role: UserRole) => {
+    // Set default permissions based on role template
+    let defaultPermissions: string[] = [];
+    
+    switch(role) {
+      case 'admin':
+        defaultPermissions = permissionGroups.flatMap(group => 
+          group.permissions.map(permission => permission.id)
+        );
+        break;
+      case 'manager':
+        defaultPermissions = [
+          'users.view', 'users.create', 'users.edit',
+          'roles.view', 'settings.view'
+        ];
+        break;
+      case 'user':
+        defaultPermissions = ['profile.view', 'profile.edit'];
+        break;
+      case 'guest':
+        defaultPermissions = ['profile.view'];
+        break;
+    }
+    
+    setPermissions(defaultPermissions);
+    form.setValue('name', role);
+  };
+
   return (
     <Card>
       <CardHeader>
@@ -81,9 +121,9 @@ export function RoleForm({ onSubmit, initialData, isEditing = false }: RoleFormP
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Role Name</FormLabel>
+                  <FormLabel>Role Template</FormLabel>
                   <Select 
-                    onValueChange={field.onChange} 
+                    onValueChange={(value) => handleRoleTemplateChange(value as UserRole)} 
                     defaultValue={field.value}
                     disabled={isEditing}
                   >
@@ -100,7 +140,7 @@ export function RoleForm({ onSubmit, initialData, isEditing = false }: RoleFormP
                     </SelectContent>
                   </Select>
                   <FormDescription>
-                    The type of role determines the default permissions.
+                    The role template determines the default permissions.
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
@@ -128,12 +168,27 @@ export function RoleForm({ onSubmit, initialData, isEditing = false }: RoleFormP
               )}
             />
 
-            {/* Permissions section will be added later */}
-            <div className="border rounded-md p-4 bg-gray-50">
-              <p className="text-sm font-medium mb-2">Permissions</p>
-              <p className="text-sm text-muted-foreground">
-                Permission management will be implemented in a future update.
+            <div>
+              <div className="flex items-center gap-2 mb-4 mt-6">
+                <Lock className="h-5 w-5 text-muted-foreground" />
+                <h3 className="text-lg font-medium">Permissions</h3>
+              </div>
+              <p className="text-sm text-muted-foreground mb-4">
+                Select the permissions for this role. Permissions determine what actions users with this role can perform.
               </p>
+              
+              <Separator className="my-4" />
+              
+              <div className="space-y-4">
+                {permissionGroups.map((group) => (
+                  <PermissionGroup
+                    key={group.id}
+                    group={group}
+                    selectedPermissions={permissions}
+                    onPermissionChange={handlePermissionChange}
+                  />
+                ))}
+              </div>
             </div>
           </CardContent>
           <CardFooter className="flex justify-between">
