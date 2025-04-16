@@ -7,6 +7,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import Users from "./pages/Users";
 import UserProfile from "./pages/UserProfile";
+import Roles from "./pages/Roles";
+import RoleDetail from "./pages/RoleDetail";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -21,6 +23,8 @@ const App = () => (
           <Route path="/" element={<Index />} />
           <Route path="/users" element={<Users />} />
           <Route path="/users/:id" element={<UserProfile />} />
+          <Route path="/roles" element={<Roles />} />
+          <Route path="/roles/:id" element={<RoleDetail />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

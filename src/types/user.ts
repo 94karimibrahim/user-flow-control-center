@@ -14,3 +14,13 @@ export interface User {
   joined: string;
   lastActive?: string;
 }
+
+export interface Role {
+  id: string;
+  name: UserRole;
+  description: string;
+  permissions: string[];
+  usersCount: number;
+  createdAt: string;
+  updatedAt: string;
+}

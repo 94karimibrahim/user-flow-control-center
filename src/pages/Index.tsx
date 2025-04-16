@@ -1,7 +1,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-import { Users } from "lucide-react";
+import { Users, ShieldCheck } from "lucide-react";
 
 const Index = () => {
   return (
@@ -13,12 +13,20 @@ const Index = () => {
         <p className="text-xl text-gray-600 mb-8">
           A comprehensive platform for managing users and their permissions
         </p>
-        <Link to="/users">
-          <Button size="lg" className="gap-2">
-            <Users className="h-5 w-5" />
-            Manage Users
-          </Button>
-        </Link>
+        <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <Link to="/users">
+            <Button size="lg" className="gap-2 w-full">
+              <Users className="h-5 w-5" />
+              Manage Users
+            </Button>
+          </Link>
+          <Link to="/roles">
+            <Button size="lg" variant="outline" className="gap-2 w-full">
+              <ShieldCheck className="h-5 w-5" />
+              Manage Roles
+            </Button>
+          </Link>
+        </div>
       </div>
     </div>
   );
