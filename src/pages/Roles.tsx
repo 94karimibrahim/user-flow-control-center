@@ -22,9 +22,11 @@ const Roles = () => {
       <Breadcrumb className="mb-6">
         <BreadcrumbList>
           <BreadcrumbItem>
-            <BreadcrumbLink as={Link} to="/">
-              <Home className="h-4 w-4 mr-1" />
-              Home
+            <BreadcrumbLink asChild>
+              <Link to="/">
+                <Home className="h-4 w-4 mr-1" />
+                Home
+              </Link>
             </BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator />

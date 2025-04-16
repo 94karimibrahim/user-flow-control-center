@@ -57,14 +57,18 @@ const RoleDetail = () => {
       <Breadcrumb className="mb-6">
         <BreadcrumbList>
           <BreadcrumbItem>
-            <BreadcrumbLink as={Link} to="/">
-              <Home className="h-4 w-4 mr-1" />
-              Home
+            <BreadcrumbLink asChild>
+              <Link to="/">
+                <Home className="h-4 w-4 mr-1" />
+                Home
+              </Link>
             </BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
-            <BreadcrumbLink as={Link} to="/roles">Roles</BreadcrumbLink>
+            <BreadcrumbLink asChild>
+              <Link to="/roles">Roles</Link>
+            </BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbPage className="capitalize">{role.name}</BreadcrumbPage>
