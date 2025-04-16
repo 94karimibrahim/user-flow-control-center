@@ -9,6 +9,7 @@ import Users from "./pages/Users";
 import UserProfile from "./pages/UserProfile";
 import Roles from "./pages/Roles";
 import RoleDetail from "./pages/RoleDetail";
+import CreateRole from "./pages/CreateRole";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -24,6 +25,7 @@ const App = () => (
           <Route path="/users" element={<Users />} />
           <Route path="/users/:id" element={<UserProfile />} />
           <Route path="/roles" element={<Roles />} />
+          <Route path="/roles/new" element={<CreateRole />} />
           <Route path="/roles/:id" element={<RoleDetail />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
