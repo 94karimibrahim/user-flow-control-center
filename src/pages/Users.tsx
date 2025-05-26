@@ -7,6 +7,11 @@ import { users as initialUsers } from "@/data/users";
 import { UserTable } from "@/components/users/UserTable";
 import { AddUserDialog } from "@/components/users/AddUserDialog";
 import { NotificationBell } from "@/components/notifications/NotificationBell";
+import { UserActivityDashboard } from "@/components/users/UserActivityDashboard";
+import { ActiveUsersList } from "@/components/users/ActiveUsersList";
+import { UserStatistics } from "@/components/users/UserStatistics";
+import { AuditLog } from "@/components/users/AuditLog";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const Users = () => {
   const [users, setUsers] = useState<User[]>(initialUsers);
@@ -42,8 +47,38 @@ const Users = () => {
           <AddUserDialog onUserAdded={handleAddUser} />
         </div>
       </div>
+
+      <UserActivityDashboard />
       
-      <UserTable data={users} onDelete={handleDeleteUser} />
+      <Tabs defaultValue="users" className="space-y-6">
+        <TabsList className="grid w-full grid-cols-4">
+          <TabsTrigger value="users">Users</TabsTrigger>
+          <TabsTrigger value="activity">Activity</TabsTrigger>
+          <TabsTrigger value="statistics">Statistics</TabsTrigger>
+          <TabsTrigger value="audit">Audit Log</TabsTrigger>
+        </TabsList>
+        
+        <TabsContent value="users">
+          <UserTable data={users} onDelete={handleDeleteUser} />
+        </TabsContent>
+        
+        <TabsContent value="activity">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <ActiveUsersList />
+            <UserStatistics />
+          </div>
+        </TabsContent>
+        
+        <TabsContent value="statistics">
+          <div className="grid grid-cols-1 gap-6">
+            <UserStatistics />
+          </div>
+        </TabsContent>
+        
+        <TabsContent value="audit">
+          <AuditLog />
+        </TabsContent>
+      </Tabs>
     </div>
   );
 };
