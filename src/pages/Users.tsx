@@ -6,6 +6,7 @@ import { User } from "@/types/user";
 import { users as initialUsers } from "@/data/users";
 import { UserTable } from "@/components/users/UserTable";
 import { AddUserDialog } from "@/components/users/AddUserDialog";
+import { NotificationBell } from "@/components/notifications/NotificationBell";
 
 const Users = () => {
   const [users, setUsers] = useState<User[]>(initialUsers);
@@ -36,7 +37,10 @@ const Users = () => {
             Manage users and their access to the platform
           </p>
         </div>
-        <AddUserDialog onUserAdded={handleAddUser} />
+        <div className="flex items-center gap-4">
+          <NotificationBell />
+          <AddUserDialog onUserAdded={handleAddUser} />
+        </div>
       </div>
       
       <UserTable data={users} onDelete={handleDeleteUser} />

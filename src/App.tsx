@@ -10,6 +10,7 @@ import UserProfile from "./pages/UserProfile";
 import Roles from "./pages/Roles";
 import RoleDetail from "./pages/RoleDetail";
 import CreateRole from "./pages/CreateRole";
+import Notifications from "./pages/Notifications";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -27,6 +28,7 @@ const App = () => (
           <Route path="/roles" element={<Roles />} />
           <Route path="/roles/new" element={<CreateRole />} />
           <Route path="/roles/:id" element={<RoleDetail />} />
+          <Route path="/notifications" element={<Notifications />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
