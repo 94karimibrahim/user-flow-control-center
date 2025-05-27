@@ -16,7 +16,7 @@ const formSchema = z.object({
   role: z.enum(["admin", "manager", "user", "guest"], { 
     required_error: "Please select a role." 
   }),
-  status: z.enum(["active", "inactive", "pending"], { 
+  status: z.enum(["active", "inactive", "pending", "suspended"], { 
     required_error: "Please select a status." 
   }),
   department: z.string().optional(),
@@ -180,6 +180,7 @@ export function UserForm({ user, onSubmit, onCancel }: UserFormProps) {
                     <SelectItem value="active">Active</SelectItem>
                     <SelectItem value="inactive">Inactive</SelectItem>
                     <SelectItem value="pending">Pending</SelectItem>
+                    <SelectItem value="suspended">Suspended</SelectItem>
                   </SelectContent>
                 </Select>
                 <FormMessage />
